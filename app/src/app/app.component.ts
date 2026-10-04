@@ -318,6 +318,10 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
     this.configureAutoRefresh();
   }
 
+  logout(): void {
+    this.resetApp();
+  }
+
   useCurrentLocation(): void {
     this.weatherStore.useCurrentLocation();
   }

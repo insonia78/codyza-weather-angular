@@ -73,4 +73,25 @@ describe('AppComponent', () => {
     expect(localStorage.getItem(WEATHER_STORAGE_KEYS.favorites)).toBeNull();
     expect(localStorage.getItem(WEATHER_STORAGE_KEYS.settings)).toBeNull();
   });
+
+  it('should render a logout button that clears persisted weather data', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    const app = fixture.componentInstance;
+
+    localStorage.setItem(WEATHER_STORAGE_KEYS.favorites, JSON.stringify([{ id: '1' }]));
+    app.onSearchChange('Rome');
+
+    fixture.detectChanges();
+
+    const buttons = Array.from(fixture.nativeElement.querySelectorAll('button')) as HTMLButtonElement[];
+    const logoutButton = buttons.find((button) => button.textContent?.trim() === 'Logout');
+
+    expect(logoutButton).toBeTruthy();
+
+    logoutButton?.click();
+    fixture.detectChanges();
+
+    expect(app.searchQuery).toBe('');
+    expect(localStorage.getItem(WEATHER_STORAGE_KEYS.favorites)).toBeNull();
+  });
 });
